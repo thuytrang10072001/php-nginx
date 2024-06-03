@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  web:
+    restart: always
+    build:
+      context: .
+      dockerfile: .docker/nginx/Dockerfile
+    image: trang-le-nginx-php
+    ports:
+      - "3000:80"
+    volumes:
+      - .:/var/www/html
+  # nginx:
+  #   build:
+  #     context: .
+  #     dockerfile: .docker/nginx/Dockerfile
+  #   volumes:
+  #     - .:/var/www/html
+  #   image: nginx:alpine
+  #   ports:
+  #     - "8080:80"
+  #   networks:
+  #     - internal
+  # php:
+  #   image: php:fpm-alpine
+  #   volumes:
+  #     - .:/var/www/html
+  #   networks:
+  #     - internal
+networks:
+  internal:
+    driver: bridge
