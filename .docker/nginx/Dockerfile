@@ -1,47 +1,34 @@
 FROM php:8.3.3-fpm
 
-# Cài đặt các gói cần thiết
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libmemcached-dev \
-    libzip-dev \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    librdkafka-dev \
-    libpq-dev \
-    openssh-server \
-    zip \
-    unzip \
-    supervisor \
-    sqlite3 \
-    nano \
-    cron \
-    nginx
+RUN apt-get update -y \
+    && apt-get install -y nginx
 
-# Sao chép mã nguồn vào thư mục /var/www/html
-COPY . /var/www/html
+# PHP_CPPFLAGS are used by the docker-php-ext-* scripts
+ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
 
-# Thiết lập thư mục làm việc
+RUN docker-php-ext-install pdo_mysql \
+    && docker-php-ext-install opcache \
+    && apt-get install libicu-dev -y \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl \
+    && apt-get remove libicu-dev icu-devtools -y
+RUN { \
+        echo 'opcache.memory_consumption=128'; \
+        echo 'opcache.interned_strings_buffer=8'; \
+        echo 'opcache.max_accelerated_files=4000'; \
+        echo 'opcache.revalidate_freq=2'; \
+        echo 'opcache.fast_shutdown=1'; \
+        echo 'opcache.enable_cli=1'; \
+    } > /usr/local/etc/php/conf.d/php-opocache-cfg.ini
+
+COPY .docker/nginx/default.conf /etc/nginx/sites-enabled/default
+COPY .docker/nginx/entrypoint.sh /etc/entrypoint.sh
+RUN chmod +x /etc/entrypoint.sh
+
+COPY --chown=www-data:www-data . /var/www/html
+
 WORKDIR /var/www/html
 
-# Sao chép cấu hình Nginx
-COPY .docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80 443
 
-# Thiết lập quyền sở hữu và quyền truy cập
-RUN chown -R www-data:www-data /var/www/html
-
-# Tạo file cấu hình supervisor
-COPY .docker/nginx/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Mở cổng 80
-EXPOSE 80
-
-# Khởi động supervisor để quản lý Nginx và PHP-FPM
-
-CMD ["php-fpm", "-F"]
-
-CMD ["/usr/bin/supervisord"]
+ENTRYPOINT ["/etc/entrypoint.sh"]
