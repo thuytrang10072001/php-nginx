@@ -1,7 +1,7 @@
 <?php             
     session_start();
     require_once __DIR__ . '/vendor/autoload.php';
-    use App\User\Customer;
+    use App\models\CustomerModel;
     use Respect\Validation\Validator as v;
 
     // if (!isset($_SESSION['array'])) {
