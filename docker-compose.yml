@@ -1,12 +1,14 @@
 version: "3"
 
 services:
-  nginx:
+  php-nginx:
     build:
       context: .
       dockerfile: .docker/nginx/Dockerfile
     volumes:
       - .:/var/www/html
+      - ./.docker/nginx/www.conf:/etc/php-fpm.d/www.conf
+
     image: trang-le-nginx-php
     ports:
       - "8080:80"

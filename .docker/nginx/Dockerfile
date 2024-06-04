@@ -1,11 +1,6 @@
-# FROM nginx:alpine
-# ADD .docker/nginx/default.conf /etc/nginx/conf.d
-
-# FROM php:8.3-fpm-alpine3.20
-
-
 FROM php:8.3.3-fpm
 
+# Cài đặt các gói cần thiết
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -22,18 +17,31 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     supervisor \
-    sqlite3  \
+    sqlite3 \
     nano \
-    cron
-RUN apt-get update && apt-get install -y nginx
+    cron \
+    nginx
 
+# Sao chép mã nguồn vào thư mục /var/www/html
 COPY . /var/www/html
 
+# Thiết lập thư mục làm việc
 WORKDIR /var/www/html
 
-COPY .docker/nginx/default.conf /etc/nginx/conf.d/
+# Sao chép cấu hình Nginx
+COPY .docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
+# Thiết lập quyền sở hữu và quyền truy cập
+RUN chown -R www-data:www-data /var/www/html
+
+# Tạo file cấu hình supervisor
+COPY .docker/nginx/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Mở cổng 80
 EXPOSE 80
 
+# Khởi động supervisor để quản lý Nginx và PHP-FPM
 
+CMD ["php-fpm", "-F"]
 
+CMD ["/usr/bin/supervisord"]
