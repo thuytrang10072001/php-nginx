@@ -1,8 +1,9 @@
 <?php
 namespace App\models;
-use App\core\Model;
+use App\core\Connection;
+use PDO;
 
-class Customer extends Model 
+class Customer extends Connection 
 {
     //get list customer
     public function getCustomers() {

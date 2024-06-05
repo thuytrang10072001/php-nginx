@@ -1,63 +1,8 @@
 <?php             
-    session_start();
     use Respect\Validation\Validator as v;
 
     $name = $email = $address = "";
     $nameErr = $emailErr = $addressErr = "";
-
-    // if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //     if (empty($_POST["name"])) {
-    //          $nameErr = "Name is required";
-    //     } else {
-    //         $name = test_input($_POST["name"]);
-    //         // check if name only contains letters and whitespace
-    //         if (!v::alpha(' ')->validate($name)) {
-    //             $nameErr = "Only letters and white space allowed";
-    //         }
-    //     }
-
-    //     if (empty($_POST["address"])) {
-    //         $addressErr = "Address is required";
-    //     } else {
-    //         (empty($_POST["email"])) {
-    //             $emailErr = "Email is required";
-    //         } else {
-    //             $email = test_input($_POST["email"]);
-    //             if(!v::email()->validate($email)){
-    //                 $emailErr = "Invalid email format";
-    //             }
-    //         }
-    //     }   
-          
-    //     function test_input($data) {
-    //         $data = trim($data);
-    //         $data = stripslashes($data);
-    //         $data = htmlspecialchars($data);
-    //         return $data;
-    //     }  $address = test_input($_POST["address"]);
-    //         // check if name only contains letters and whitespace
-    //         if (!v::alnum(',', ' ')->validate($address)) {
-    //            $addressErr = "Only letters, number and white space allowed";
-    //         }
-    //     }
-       
-    //     if (empty($_POST["email"])) {
-    //         $emailErr = "Email is required";
-    //     } else {
-    //         $email = test_input($_POST["email"]);
-    //         if(!v::email()->validate($email)){
-    //             $emailErr = "Invalid email format";
-    //         }
-    //     }
-    // }   
-      
-    // function test_input($data) {
-    //     $data = trim($data);
-    //     $data = stripslashes($data);
-    //     $data = htmlspecialchars($data);
-    //     return $data;
-    // }
-          
 ?>
 <!DOCTYPE html>
 <html lang="en">

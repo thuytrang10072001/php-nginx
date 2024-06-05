@@ -6,6 +6,6 @@
         public function index() {
             $customerModel = $this->model('Customer');
             $customers = $customerModel->getCustomers();
-            $this->view('customers', ['customers' => $customers]);
+            $this->view('customer', ['customers' => $customers]);
         }
     }

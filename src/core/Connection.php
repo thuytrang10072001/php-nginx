@@ -5,12 +5,12 @@ namespace App\core;
 use PDO;
 use PDOException;
 
-class Model {
+class Connection {
     protected $db;
 
     public function __construct() {
         try {
-            $dsn = 'pgsql:host=127.0.0.1;port=5432;dbname=db';
+            $dsn = 'pgsql:host=postgres_db;port=5432;dbname=db';
             $username = 'postgres';
             $password = 'postgres';
         
