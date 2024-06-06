@@ -1,6 +1,6 @@
 <?php
-namespace App\models;
-use App\core\Connection;
+namespace App\Models;
+use App\Core\Connection;
 use PDO;
 
 class Customer extends Connection 
@@ -11,47 +11,13 @@ class Customer extends Connection
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    // private int $id;
-    // private string $name;
-    // private string $address;
-    // private string $email;
-  
-    // public function __construct(?string $name, ?string $address, ?string $email) {
-    //   $this->name = $name;
-    //   $this->address = $address;
-    //   $this->email = $email;
-    // }
-
-    // public function getId(): ?int {
-    //     return $this->id;
-    // }
-
-    // public function getName(): ?string{
-    //     return $this->name;
-    // }
-
-    // public function setName(?string $name){
-    //     $this->name = $name;
-    //     return $this;
-    // }
-
-    // public function getAddress(): ?string{
-    //     return $this->address;
-    // }
-
-    // public function setAddress(?string $address){
-    //     $this->address = $address;
-    //     return $this;
-    // }
-
-    // public function getEmail(): ?string{
-    //     return $this->email;
-    // }
-
-    // public function setEmail(?string $email){
-    //     $this->email = $email;
-    //     return $this;
-    // }
+   
+    public function getCustomerById($id) {
+        $stmt = $this->db->prepare('SELECT * FROM Customer WHERE id = :id');
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
 
 }

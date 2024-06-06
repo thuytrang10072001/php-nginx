@@ -1,6 +1,6 @@
 <?php
-    namespace App\core;
-    use App\models\Customer;
+    namespace App\Core;
+    use App\Models\Customer;
 
     class Controller {
         public function model($model) {

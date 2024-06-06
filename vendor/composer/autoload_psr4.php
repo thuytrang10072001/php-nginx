@@ -9,5 +9,8 @@ return array(
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Respect\\Validation\\' => array($vendorDir . '/respect/validation/library'),
     'Respect\\Stringifier\\' => array($vendorDir . '/respect/stringifier/src'),
-    'App\\' => array($baseDir . '/src'),
+    'App]\\Views\\' => array($baseDir . '/src/views'),
+    'App\\Models\\' => array($baseDir . '/src/models'),
+    'App\\Core\\' => array($baseDir . '/src/core'),
+    'App\\Controllers\\' => array($baseDir . '/src/controllers'),
 );
