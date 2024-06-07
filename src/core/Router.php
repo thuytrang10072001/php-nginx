@@ -1,42 +1,26 @@
 <?php
+namespace Core;
+
 class Router{
-    public static function handle($method = 'GET', $path='/', $controller=''){
-        $currentMethod = $_SERVER['REQUEST_METHOD'];
-        $currentUri = $_SERVER['REQUEST_URI'];
-        if($currentMethod != $method){
-            return false;
-        }
-        $root = '';
-        $pattern = '#^'.$root.$path.'$#siD';
-        if(preg_match($pattern, $currentUri)){
-            if(is_callable($controller)){
-                $controller();
-            }else{
-                require_once '../controllers/'.$controller.'.php';
+    function handleRoute($url){
+        global $routes;
+        unset($routes['DEFAULT_CONTROLLER']);
+        // echo "<pre>";
+        // print_r($routes);
+        $url = trim($url, '/');
+
+        $handleUrl = $url;
+
+        if(!empty($routes)){
+            foreach($routes as $key => $value){
+                if(preg_match('~'.$key.'~is', $url)){
+                    $handleUrl = preg_replace('~'.$key.'~is', $value, $url);
+                }
             }
-            exit();
+
         }
-        return false;
-    }
 
-    public static function get($path='/', $controller=''){
-        return self::handle('GET', $path, $controller);
-    }
-
-    public static function post($path='/', $controller=''){
-        return self::handle('POST', $path, $controller);
-    }
-    
-    public static function put($path='/', $controller=''){
-        return self::handle('PUT', $path, $controller);
-    }
-
-    public static function patch($path='/', $controller=''){
-        return self::handle('PATCH', $path, $controller);
-    }
-
-    public static function delete($path='/', $controller=''){
-        return self::handle('DELETE', $path, $controller);
+        return $handleUrl;
     }
 }
 ?>

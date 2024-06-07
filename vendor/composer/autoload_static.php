@@ -12,6 +12,10 @@ class ComposerStaticInit86067fc3eca4b7ec974325f527a63468
     );
 
     public static $prefixLengthsPsr4 = array (
+        'V' => 
+        array (
+            'Views\\' => 6,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
@@ -21,17 +25,27 @@ class ComposerStaticInit86067fc3eca4b7ec974325f527a63468
             'Respect\\Validation\\' => 19,
             'Respect\\Stringifier\\' => 20,
         ),
+        'M' => 
+        array (
+            'Models\\Customer\\' => 16,
+            'Models\\' => 7,
+        ),
+        'C' => 
+        array (
+            'Core\\' => 5,
+            'Controllers\\' => 12,
+        ),
         'A' => 
         array (
-            'App]\\Views\\' => 11,
-            'App\\Models\\' => 11,
-            'App\\Core\\' => 9,
-            'App\\Controllers\\' => 16,
             'App\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Views\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/views',
+        ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
@@ -44,19 +58,19 @@ class ComposerStaticInit86067fc3eca4b7ec974325f527a63468
         array (
             0 => __DIR__ . '/..' . '/respect/stringifier/src',
         ),
-        'App]\\Views\\' => 
+        'Models\\Customer\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/src/views',
+            0 => __DIR__ . '/../..' . '/src/models/customer',
         ),
-        'App\\Models\\' => 
+        'Models\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/models',
         ),
-        'App\\Core\\' => 
+        'Core\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/core',
         ),
-        'App\\Controllers\\' => 
+        'Controllers\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/controllers',
         ),

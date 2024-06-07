@@ -6,12 +6,13 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Views\\' => array($baseDir . '/src/views'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Respect\\Validation\\' => array($vendorDir . '/respect/validation/library'),
     'Respect\\Stringifier\\' => array($vendorDir . '/respect/stringifier/src'),
-    'App]\\Views\\' => array($baseDir . '/src/views'),
-    'App\\Models\\' => array($baseDir . '/src/models'),
-    'App\\Core\\' => array($baseDir . '/src/core'),
-    'App\\Controllers\\' => array($baseDir . '/src/controllers'),
+    'Models\\Customer\\' => array($baseDir . '/src/models/customer'),
+    'Models\\' => array($baseDir . '/src/models'),
+    'Core\\' => array($baseDir . '/src/core'),
+    'Controllers\\' => array($baseDir . '/src/controllers'),
     'App\\' => array($baseDir . '/src'),
 );

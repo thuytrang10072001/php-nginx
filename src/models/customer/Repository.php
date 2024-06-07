@@ -1,9 +1,9 @@
 <?php
-namespace App\Models;
-use App\Core\Connection;
+namespace Models\Customer;
+use Core\Connection;
 use PDO;
 
-class Customer extends Connection 
+class Repository extends Connection 
 {
     //get list customer
     public function getCustomers() {
@@ -19,6 +19,11 @@ class Customer extends Connection
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-
+    public function insertCustomer($customer){
+        $stmt = $pdo->prepare("INSERT INTO customers (name, email) VALUES (:name, :email)");
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->execute();
+    }
 }
 ?>

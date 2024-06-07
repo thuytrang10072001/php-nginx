@@ -1,10 +1,11 @@
 <?php
-    namespace App\Core;
-    use App\Models\Customer;
+    namespace Core;
+    // use Models\Customer\Repository;
 
     class Controller {
         public function model($model) {
-            return new Customer();
+            require_once './src/models/' . $model . '/Repository.php';
+            return new Repository();
         }
 
         public function view($view, $data = []) {

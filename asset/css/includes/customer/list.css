@@ -1,22 +1,15 @@
 
 .customer__title{
     font-size: 36px;
+    padding: 10px;
 }
 
 .customer__list{
- 
-    
+    padding: 5%;  
 }
 
-.customer__list--detail{
-    flex: 1;
-    text-align: center;
-    display: none;
-}
-
-.customer__detail--info{
-    text-align: start;
-    padding: 10%; 
+.customer__list .btn-add{
+    margin-bottom: 20px
 }
 
 .customer__form{        
