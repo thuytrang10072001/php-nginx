@@ -24,6 +24,7 @@ class Repository extends Connection
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':email', $this->email);
         $stmt->execute();
+        return $stmt->rowCount();
     }
 }
 ?>
