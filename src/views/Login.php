@@ -1,56 +1,13 @@
 <?php 
-    use Controllers\LoginController;
-    use Controllers\CustomerController;
-    $uri = 'http://localhost:8080/customer/list';
-
-    unset($_SESSION['admin']); 
-
-    if(isset($_SESSION['alertLogin'])){
+    if(isset($_SESSION['errorInput'])){
+        $errorInput = json_encode($_SESSION['errorInput']);
         echo "<script>
-                setTimeout(function() {
-                    alert('Login unsuccessful\\n Because incorrect email or password!');
-                }, 100);
+                alert($errorInput);
             </script>";
-        unset($_SESSION['alertLogin']);
-    }
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        function test($data) {
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
-            return $data;
-        }
-
-        if (isset($_POST["email"])) {
-            $email = test($_POST["email"]);
-        }
-
-        if (isset($_POST["pass"])) {
-            $pass = test($_POST["pass"]);
-        }
-
-        $controller = new LoginController();
-        $customer = new CustomerController();
-
-        // Check action login exists in LoginController
-        if (method_exists($controller, 'login')) {
-            $check = $controller->login($email, $pass);
-            unset($_POST["pass"]);
-            unset($_POST["email"]);
-            if($check){
-                header("Location: /customer/list"); //Load page 
-                exit();
-            }else{
-                $alert = "Login unsuccessful \\n Because incorrect email or password!";
-                $_SESSION['alertLogin'] = $alert;
-                header("Location: /");
-            }
-
-        } else
-            echo "Page Not Found";
+        unset($_SESSION['errorInput']);
     }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,7 +50,7 @@
             <div class="row">
             <div class="login__form d-flex flex-column align-items-center">
                 <div class="login__form--title">Login</div>
-                <form id="form-login" method="post">
+                <form id="form-login" method="post" action="/login/login">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
                         <input type="email" class="form-control" id="email1" name="email" aria-describedby="emailHelp" required>

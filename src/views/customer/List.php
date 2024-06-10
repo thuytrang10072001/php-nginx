@@ -1,84 +1,12 @@
-<?php         
-    use Models\Customer\Customer;
-    use Controllers\CustomerController;
-    use Respect\Validation\Validator as v;
-
-    $name = $phone = $email = $address = $id = "";
-    $uri = 'http://localhost:8080/customer/list';
-    if (!isset($_SESSION['admin'])){
-        header("Location: http://localhost:8080");    
-        exit();
+<?php 
+    if(isset($_SESSION['errorInput'])){
+        $errorInput = json_encode($_SESSION['errorInput']);
+        echo "<script>
+                alert($errorInput);
+            </script>";
+        unset($_SESSION['errorInput']);
     }
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        function test_input($data) {
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
-            return $data;
-        }
-        if (isset($_POST["id"])) {
-            $id = test_input($_POST["id"]);
-        }
-
-        if (isset($_POST["name"])) {
-            $name = test_input($_POST["name"]);
-        }
-    
-        if (isset($_POST["phone"])) {
-            $phone = test_input($_POST["phone"]);
-        }
-    
-        if (isset($_POST["address"])) {
-            $address = test_input($_POST["address"]);
-        }
-    
-        if (isset($_POST["email"])) {
-            $email = test_input($_POST["email"]);
-        }
-
-        $controller = new CustomerController();
-
-        // method $_POST["id] exists to use UPDATE
-        if (isset($_POST["id"])) {
-            $id = test_input($_POST["id"]);
-            $customer = new Customer($id,$name, $phone, $address, $email);
-            if (method_exists($controller, 'update')) {
-                $controller->update($customer);
-                unset($_POST['id']);
-            } else
-                echo "Page Not Found";
-        }
-
-        // $_POST['idDelete'] exists to use DELETE
-        else if (isset($_POST["idDelete"])){
-            $customerId = test_input($_POST["idDelete"]);
-            if (method_exists($controller, 'delete')) {
-                $controller->delete($customerId);
-                unset($_POST['idDelete']);
-            } else
-                echo "Page Not Found";
-        }
-        
-        // to use CREATE
-        else if(isset($_POST["name"]) && isset($_POST["phone"]) &&
-            isset($_POST["address"]) && isset($_POST["email"])){
-                $customer = new Customer('',$name, $phone, $address, $email);
-                if (method_exists($controller, 'insert')) {
-                    unset($_POST["name"]);
-                    unset($_POST["phone"]);
-                    unset($_POST["address"]);
-                    unset($_POST["email"]);
-                    $controller->insert($customer);
-                } else
-                    echo "Page Not Found";
-            }
-
-        header("Location: /customer/list"); //Load page 
-    }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -134,7 +62,7 @@
                                                 data-id="<?php echo $customer->getId(); ?>" data-name="<?php echo $customer->getName();?>"  
                                                 data-phone="<?php echo $customer->getPhone();?>" data-address="<?php echo $customer->getAddress();?>"
                                                 data-email="<?php echo $customer->getEmail(); ?>"
-                                                data-bs-toggle="modal" data-bs-target="#modalForm">
+                                                data-bs-toggle="modal" data-bs-target="#modalFormUpdate">
                                             Update  <i class="fa-regular fa-pen-to-square">
                                             </i>
                                         </button>
@@ -158,11 +86,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" id='form' >
-                        <div class="mb-3 show-id" style="display: none">
-                            <label for="recipient-name" class="col-form-label">ID:</label>
-                            <input type="text" class="form-control" id="id" name='id' disabled ></input>
-                        </div>
+                    <form method="post" id='form' action='/customer/insert' >
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Name:</label>
                             <input type="text" class="form-control" id="name" name='name' pattern="[a-zA-Z\s]+" title="Only letters and white space allowed" required></input>
@@ -189,6 +113,45 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="modalFormUpdate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Update Customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id='form' action='/customer/update' >
+                        <div class="mb-3 show-id">
+                            <label for="recipient-name" class="col-form-label">ID:</label>
+                            <input type="text" class="form-control" id="id" name='id' readonly ></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Name:</label>
+                            <input type="text" class="form-control" id="nameUpdate" name='name' pattern="[a-zA-Z\s]+" title="Only letters and white space allowed" required></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Phone:</label>
+                            <input type="tel" class="form-control" id="phoneUpdate" name='phone' pattern="^0\d{9,10}$" required></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Address:</label>
+                            <input type="text" class="form-control" id="addressUpdate"  pattern="[a-zA-Z0-9\s,]+" title="Only letters, numbers, commas and white space allowed" name='address' required></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Email:</label>
+                            <input type="email" class="form-control" id="emailUpdate" name='email' required></input>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="btn-submit" >Save</button>
+                        </div>
+                    </form>
+                </div>
+
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -197,7 +160,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" id='formDelete' >
+                    <form method="post" id='formDelete' action='/customer/delete'>
                         <div class="mb-3" >
                             <label for="recipient-name" class="col-form-label">ID:</label>
                             <input type="text" class="form-control" id="idDelete" name='idDelete' readonly ></input>                
