@@ -59,10 +59,10 @@
             isset($_POST["address"]) && isset($_POST["email"])){
                 $customer = new Customer('',$name, $phone, $address, $email);
                 if (method_exists($controller, 'insert')) {
-                    unset($_PORT["name"]);
-                    unset($_PORT["phone"]);
-                    unset($_PORT["address"]);
-                    unset($_PORT["email"]);
+                    unset($_POST["name"]);
+                    unset($_POST["phone"]);
+                    unset($_POST["address"]);
+                    unset($_POST["email"]);
                     $controller->insert($customer);
                 } else
                     echo "Page Not Found";
