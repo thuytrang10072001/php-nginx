@@ -1,11 +1,15 @@
 <?php
     namespace Core;
-    // use Models\Customer\Repository;
 
     class Controller {
-        public function model($model) {
-            require_once './src/models/' . $model . '/Repository.php';
-            return new Repository();
+        public function model($model, $subfolder = '') {
+            $path = './src/models/' . ($subfolder ? $subfolder . '/' : '') . $model . '.php';
+            if (file_exists($path)) {
+                require_once $path;
+                return new $model;
+            } else {
+                throw new Exception("Model file not found: " . $path);
+            }
         }
 
         public function view($view, $data = []) {

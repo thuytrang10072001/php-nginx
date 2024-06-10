@@ -1,4 +1,3 @@
-@import "./includes/customer/list.css";  
-@import "./includes/customer/show.css";  
- 
- 
+@import "./includes/customer/list.css";
+@import "./includes/customer/show.css";
+@import "./includes/login/form.css";

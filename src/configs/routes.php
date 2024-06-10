@@ -1,3 +1,3 @@
 <?php
-    $routes['DEFAULT_CONTROLLER'] = "Home";
-    $routes['ADMIN'] = "admin";
+    $routes['DEFAULT_CONTROLLER'] = "Login";
+    //$routes['ADMIN'] = "admin";

@@ -1,13 +1,10 @@
 <?php
-
-// namespace App\Core;
-// use App\Controllers\CustomerController;
-
-// echo '<pre>';
-// print_r($_SERVER);
-// echo '</pre>';
 namespace App;
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 use Core\Router;
+use PDO;  
 
 class App
 {
