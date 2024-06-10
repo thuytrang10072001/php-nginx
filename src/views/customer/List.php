@@ -38,24 +38,30 @@
         }
 
         $controller = new CustomerController();
+
+        // method $_POST["id] exists to use UPDATE
         if (isset($_POST["id"])) {
             $id = test_input($_POST["id"]);
             $customer = new Customer($id,$name, $phone, $address, $email);
             if (method_exists($controller, 'update')) {
                 $controller->update($customer);
+                unset($_POST['id']);
             } else
                 echo "Page Not Found";
-            unset($_POST['id']);
         }
+
+        // $_POST['idDelete'] exists to use DELETE
         else if (isset($_POST["idDelete"])){
             $customerId = test_input($_POST["idDelete"]);
             if (method_exists($controller, 'delete')) {
                 $controller->delete($customerId);
+                unset($_POST['idDelete']);
             } else
                 echo "Page Not Found";
-                unset($_POST['idDelete']);
-        }else{
-            if(isset($_POST["name"]) && isset($_POST["phone"]) &&
+        }
+        
+        // to use CREATE
+        else if(isset($_POST["name"]) && isset($_POST["phone"]) &&
             isset($_POST["address"]) && isset($_POST["email"])){
                 $customer = new Customer('',$name, $phone, $address, $email);
                 if (method_exists($controller, 'insert')) {
@@ -67,7 +73,7 @@
                 } else
                     echo "Page Not Found";
             }
-        }
+
         header("Location: /customer/list"); //Load page 
     }
 

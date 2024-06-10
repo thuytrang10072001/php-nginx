@@ -8,7 +8,13 @@ CREATE TABLE Customer (
 );
 
 INSERT INTO
-    Customer (name, phone, address, email, pass)
+    Customer (
+        name,
+        phone,
+        address,
+        email,
+        pass
+    )
 VALUES (
         'John Doe',
         '0912341212',
@@ -28,19 +34,40 @@ VALUES (
         '0912341212',
         'Washington Capital',
         'anna.kenrick@example.com',
-        '123465'
+        '123456'
     ),
     (
         'Taylor Swift',
         '0912341212',
         'Miami State',
         'taylor.swift@example.com',
-        '123465'
+        '123456'
     ),
     (
         'Charlie Puth',
         '0912341212',
         'Boston Celtic State',
         'charlie.puth@example.com',
+        '123456'
+    ),
+    (
+        'Kim Taeyeon',
+        '0912341212',
+        'Jeonju',
+        'kim.taeyeon@example.com',
+        '123456'
+    ),
+    (
+        'Im Yoona',
+        '0912341212',
+        'Daerim-dong',
+        'im.yoonah@example.com',
+        '123456'
+    ),
+    (
+        'Sunny',
+        '0912341212',
+        'California',
+        'sunny@example.com',
         '123456'
     );

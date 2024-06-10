@@ -39,7 +39,8 @@ class App
         // cutomer/list
         $urlArr = array_filter(explode('/', $url));
         $urlCheck = "";
-        // 0 -> customer; 1 -> list
+
+        // Check controller exists
         if (!empty($urlArr)){
             foreach($urlArr as $key => $item)
             {
@@ -65,15 +66,17 @@ class App
            
         }
        
-
         if (!empty($urlArr[0])) {
             $urlCheck = $urlCheck . 'Controller';
             $this->__controller = ucfirst($urlArr[0]) . 'Controller';
-        } else {
+        } 
+        // If url have nothing -> $this->-__controller = LoginController
+        else {
             $urlCheck = ucfirst($this->__controller). 'Controller';
             $this->__controller = ucfirst($this->__controller).  'Controller';
         }
 
+        // controller exists to class controller
         if (file_exists('./src/controllers/'  . $urlCheck .  '.php')) {          
             require_once './src/controllers/' . $urlCheck  . '.php';
 
@@ -88,24 +91,19 @@ class App
             die;
         }
 
+        // Get action from url
         if (!empty($urlArr[1])) {
             $this->__action = $urlArr[1];
             unset($urlArr[1]);
         }
 
-        // echo '<pre>';
-        // print_r($this->__controller);
-        // echo '<br>';
-        // print_r($this->__action);
-        // echo '</pre>';
-
+        // Get params from url
         $this->__params = array_values($urlArr);
         
+        // If method exists in class controller
         if (method_exists($this->__controller, $this->__action)) {
             call_user_func_array([$this->__controller, $this->__action], $this->__params);
         } else
-
             echo "Page Not Found";
-           
     }
 }
